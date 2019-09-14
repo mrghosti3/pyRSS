@@ -3,7 +3,7 @@ import smtplib
 from email.mime.text import MIMEText
 import feedparser
 
-db_connection = sqlite3.connect('D:\\Projects\\rssPython\\testBase.sqlite')
+db_connection = sqlite3.connect('testBase.sqlite')
 db = db_connection.cursor()
 db.execute('CREATE TABLE IF NOT EXISTS magazine (title TEXT, date TEXT)')
 
