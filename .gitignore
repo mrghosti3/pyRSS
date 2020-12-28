@@ -142,5 +142,5 @@ cython_debug/
 .vs/*
 
 # pyRSS input/output
-*input.json
-feed-output.sqlite
+*.txt
+*.adb

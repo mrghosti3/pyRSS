@@ -2,8 +2,8 @@ import sqlite3
 
 class articleDatabase:
     def __init__(self, name) -> None:
-        if name.endswith('.sqlite') == 0:
-            name = name.concat('.sqlite')
+        if name.endswith('.adb') == 0:
+            name = name.concat('.adb')
 
         self.dbConnection = sqlite3.connect(name)
         db = self.dbConnection.cursor()
