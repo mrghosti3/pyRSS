@@ -1,44 +1,24 @@
-import sqlite3
-import smtplib
-from email.mime.text import MIMEText
 import feedparser
 
-db_connection = sqlite3.connect('testBase.sqlite')
-db = db_connection.cursor()
-db.execute('CREATE TABLE IF NOT EXISTS magazine (title TEXT, date TEXT)')
+from article_database import articleDatabase as articleDB
 
-def article_is_not_db(article_title, article_date):
-    """ Check if a given pair of article title and date
+def read_article_feed(url, articles):
+    """Reads article feed from single url
+
     Args:
-        article_title (str): The title of an article
-        article_date (str): The publication date of an article
-    Return:
-        True if the article is not in db
-        False if the article exists in db
+        url (str): website url
+        articles (str)
     """
-    db.execute('SELECT * from magazine WHERE title=? AND date=?', (article_title, article_date))
-    if not db.fetchall():
-        return True
-    else:
-        return False
 
-def add_article_to_db(article_title, article_date):
-    """
-    Args:
-        article_title (str): The title of an article
-        article_date (str): The publication date of an article
-    """
-    db.execute('INSERT INTO magazine VALUES(?, ?)', (article_title, article_date))
-    db_connection.commit()
-
-def read_article_feed():
-    """ Gets articles from RSS feed """
-    feed = feedparser.parse('https://fedoramagazine.org/feed/')
+    feed = feedparser.parse(url)
     for article in feed['entries']:
-        if article_is_not_db(article['title'], article['published']):
-            add_article_to_db(article['title'], article['published'])
+        if articles.article_not_found(article['title'], article['published']):
+            articles.add_article_to_db(article['title'], article['published'])
 
 if __name__ == '__main__':
     print('running')
-    read_article_feed()
-    db_connection.close()
+
+    articles = articleDB('output')
+
+    read_article_feed("", articles)
+    articles.close_database()
