@@ -1,6 +1,7 @@
+import argparse
 import feedparser
 
-from article_database import articleDatabase as articleDB
+from articledatabase import articleDatabase as articleDB
 
 def read_article_feed(url, articles):
     """Reads article feed from single url
