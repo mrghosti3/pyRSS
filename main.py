@@ -25,18 +25,26 @@ def create_argparse() -> ArgumentParser:
     )
     return arguementParser
 
-def verbose_mode(verbose):
+def verbose_mode(verbose) -> logging.Logger:
+    """Configs logging
+
+    Args:
+        verbose (bool): logging identifier
+
+    Returns:
+        logging.Logger: configured logger
+    """
+
     logger = logging.getLogger('Feed status')
 
     if verbose:
         logger.setLevel(level='DEBUG')
     else:
         logger.setLevel(level='INFO')
+
     lHandler = logging.StreamHandler()
 
-    formatter = logging.Formatter(
-
-    )
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     lHandler.setFormatter(formatter)
     logger.addHandler(lHandler)
     return logger
@@ -58,4 +66,6 @@ if __name__ == '__main__':
     argParser = create_argparse()
     args = argParser.parse_args()
     logger = verbose_mode(args.verbose)
+
     articles = articleDB(args.output)
+    logger.info("Created database ()")
