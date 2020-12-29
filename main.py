@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+import logging
 import feedparser
 
 from articledatabase import articleDatabase as articleDB
@@ -24,6 +25,22 @@ def create_argparse() -> ArgumentParser:
     )
     return arguementParser
 
+def verbose_mode(verbose):
+    logger = logging.getLogger('Feed status')
+
+    if verbose:
+        logger.setLevel(level='DEBUG')
+    else:
+        logger.setLevel(level='INFO')
+    lHandler = logging.StreamHandler()
+
+    formatter = logging.Formatter(
+
+    )
+    lHandler.setFormatter(formatter)
+    logger.addHandler(lHandler)
+    return logger
+
 def read_article_feed(url, articles):
     """Reads article feed from single url
 
@@ -40,5 +57,5 @@ def read_article_feed(url, articles):
 if __name__ == '__main__':
     argParser = create_argparse()
     args = argParser.parse_args()
-
+    logger = verbose_mode(args.verbose)
     articles = articleDB(args.output)
