@@ -1,6 +1,6 @@
 import sqlite3
 
-class articleDatabase:
+class ArticleDatabase:
     def __init__(self, name) -> None:
         if name.endswith('.adb') == 0:
             name = name + '.adb'
@@ -8,6 +8,9 @@ class articleDatabase:
         self.dbConnection = sqlite3.connect(name)
         db = self.dbConnection.cursor()
         db.execute('CREATE TABLE IF NOT EXISTS magazine (title TEXT, date TEXT)')
+    
+    def __del__(self) -> None:
+        self.close_database()
 
     def article_not_found(self, articleTitle, articleDate) -> bool:
         """Check if a given pair of article title and date

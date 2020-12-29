@@ -2,7 +2,7 @@ from argparse import ArgumentParser
 import logging
 import feedparser
 
-from articledatabase import articleDatabase as articleDB
+from articledatabase import ArticleDatabase as articleDB
 
 def create_argparse() -> ArgumentParser:
     """Generates argument parser
